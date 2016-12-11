@@ -35,7 +35,7 @@ currentY = 0
 
 def removeEdge(currentX,currentY,nextX,nextY):
     #Remove an edge between current and next point
-    xDiff = ( currentX - nextX )
+    xDiff = int( currentX - nextX )
     if xDiff == 1:
         #Remove current's left and next's right
         grid[currentX][currentY].draw[3] = False
@@ -45,15 +45,15 @@ def removeEdge(currentX,currentY,nextX,nextY):
         grid[currentX][currentY].draw[2] = False
         grid[nextX][nextY].draw[3] = False
 
-    yDiff = ( currentY - nextY )
+    yDiff = int( currentY - nextY )
     if yDiff == 1:
         #Remove current's bottom and next's top
-        grid[currentX][currentY].draw[1] = False
-        grid[nextX][nextY].draw[0] = False
-    elif yDiff == -1:
-        #Remove current's top and next's bottom
         grid[currentX][currentY].draw[0] = False
         grid[nextX][nextY].draw[1] = False
+    elif yDiff == -1:
+        #Remove current's top and next's bottom
+        grid[currentX][currentY].draw[1] = False
+        grid[nextX][nextY].draw[0] = False
 
 def drawGrid():
     global currentX,currentY
