@@ -1,6 +1,5 @@
 # Import a library of functions called 'pygame'
 import pygame
-from math import pi
 import random
 
 # Initialize the game engine
@@ -34,6 +33,28 @@ grid[0][0].visited = True
 currentX = 0
 currentY = 0
 
+def removeEdge(currentX,currentY,nextX,nextY):
+    #Remove an edge between current and next point
+    xDiff = ( currentX - nextX )
+    if xDiff == 1:
+        #Remove current's left and next's right
+        grid[currentX][currentY].draw[3] = False
+        grid[nextX][nextY].draw[2] = False
+    elif xDiff == -1:
+        #Remove current's right and next's left
+        grid[currentX][currentY].draw[2] = False
+        grid[nextX][nextY].draw[3] = False
+
+    yDiff = ( currentY - nextY )
+    if yDiff == 1:
+        #Remove current's bottom and next's top
+        grid[currentX][currentY].draw[1] = False
+        grid[nextX][nextY].draw[0] = False
+    elif yDiff == -1:
+        #Remove current's top and next's bottom
+        grid[currentX][currentY].draw[0] = False
+        grid[nextX][nextY].draw[1] = False
+
 def drawGrid():
     global currentX,currentY
     for x in range(cols):
@@ -57,7 +78,8 @@ def drawGrid():
     #Choose a next neighbour that has not yet been visited and set it as the current point
     nextX,nextY = selectNeighbour(currentX,currentY)
     if nextX != -1:
-        print nextX,nextY
+        #Remove edge between current and next point and update currentX and currentY
+        removeEdge(currentX,currentY,nextX,nextY)
         currentX = nextX
         currentY = nextY
 
@@ -82,9 +104,8 @@ def selectNeighbour(x,y):
     n = neighbours[ random.randint(0,len(neighbours)-1) ]
     return n
 
-
 while not done:
-    # This limits the while loop to a max of 10 times per second.
+    # This limits the while loop to a max of n times per second.
     # Leave this out and we will use all CPU we can.
     clock.tick(5)
     #Exit when user clicks close
