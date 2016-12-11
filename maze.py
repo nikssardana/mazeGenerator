@@ -83,14 +83,14 @@ def drawGrid():
     grid[currentX][currentY].visited = True
     #Choose a next neighbour that has not yet been visited and set it as the current box
     nextX,nextY = selectNeighbour(currentX,currentY)
-    if nextX != -1 and len(stack):
+    if nextX != -1:
         #Push current cell to stack
         stack.append([ currentX,currentY ])
         #Remove wall between current and next box and update currentX and currentY
         removeEdge(currentX,currentY,nextX,nextY)
         currentX = nextX
         currentY = nextY
-    else:
+    elif len(stack):
         #Remove a cell from stack and make it the current cell
         currentX,currentY = stack.pop()
 
