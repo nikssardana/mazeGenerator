@@ -1,17 +1,17 @@
-# Import a library of functions called 'pygame'
+#Import a library of functions called 'pygame'
 import pygame
 import random
 
-# Initialize the game engine
+#Initialize the game engine
 pygame.init()
 
-# Define the colors we will use in RGB format
+#Define the colors we will use in RGB format
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 BLUE =  (  0,   0, 255)
 GREEN =  (  0,   255, 0)
 
-# Set the height and width of the screen
+#Set the height and width of the screen
 size = [500, 500]
 screen = pygame.display.set_mode(size)
 
@@ -22,6 +22,7 @@ done = False #Loop until the user clicks the close button.
 clock = pygame.time.Clock()
 cols = 10
 width = int(size[0]/cols)
+stack = []
 
 class Point(object):
     def __init__(self):
@@ -77,11 +78,16 @@ def drawGrid():
     grid[currentX][currentY].visited = True
     #Choose a next neighbour that has not yet been visited and set it as the current point
     nextX,nextY = selectNeighbour(currentX,currentY)
-    if nextX != -1:
-        #Remove edge between current and next point and update currentX and currentY
+    if nextX != -1 and len(stack):
+        #Push current cell to stack
+        stack.append([ currentX,currentY ])
+        #Remove wall between current and next point and update currentX and currentY
         removeEdge(currentX,currentY,nextX,nextY)
         currentX = nextX
         currentY = nextY
+    else:
+        #Remove a cell from stack and make it the current cell
+        currentX,currentY = stack.pop()
 
 def selectNeighbour(x,y):
     #Select a random neighbour out of TBRL that has not been visited and return it
@@ -105,16 +111,16 @@ def selectNeighbour(x,y):
     return n
 
 while not done:
-    # This limits the while loop to a max of n times per second.
-    # Leave this out and we will use all CPU we can.
+    #This limits the while loop to a max of n times per second.
+    #Leave this out and we will use all CPU we can.
     clock.tick(5)
     #Exit when user clicks close
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             done=True
-    # Clear the screen and set the screen background
+    #Clear the screen and set the screen background
     screen.fill(WHITE)
     drawGrid() #Draw the grid
-    # Go ahead and update the screen with what we've drawn.
-    # This MUST happen after all the other drawing commands.
+    #Go ahead and update the screen with what we've drawn.
+    #This MUST happen after all the other drawing commands.
     pygame.display.flip()
