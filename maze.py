@@ -9,6 +9,7 @@ pygame.init()
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
 BLUE =  (  0,   0, 255)
+GREEN =  (  0,   255, 0)
 
 # Set the height and width of the screen
 size = [500, 500]
@@ -25,9 +26,11 @@ width = int(size[0]/cols)
 class Point(object):
     def __init__(self):
         self.draw  = [True,True,True,True] #TBRL
+        self.visited = False
 
 grid = [ [ Point() for x in range(cols) ] for y in range(cols) ] #A grid of points ie rectangular boxes
-
+grid[0][0].visited = True
+current = grid[0][0]
 
 def drawGrid():
     for x in range(cols):
@@ -41,6 +44,12 @@ def drawGrid():
                 pygame.draw.line(screen, BLACK, [(x+1)*width,(y)*width], [(x+1)*width,(y+1)*width], 5)
             if grid[x][y].draw[3]:
                 pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x)*width,(y+1)*width], 5)
+
+            if grid[x][y].visited:
+                pygame.draw.rect(screen, BLUE, [(x)*width, (y)*width, (x+1)*width, (y+1)*width])
+            if current == grid[x][y]:
+                pygame.draw.rect(screen, GREEN, [(x)*width, (y)*width, (x+1)*width, (y+1)*width])
+
 
 while not done:
     # This limits the while loop to a max of 10 times per second.
