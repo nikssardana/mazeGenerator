@@ -1,5 +1,9 @@
+'''This program generates a square maze of specified size.
+    It uses Recursive Backtracking Method.
+'''
 #Import a library of functions called 'pygame'
 import pygame
+#For selecting a random neighbour of current cell
 import random
 
 #Initialize the game engine
@@ -20,22 +24,22 @@ pygame.display.set_caption("Maze")
 
 done = False #Loop until the user clicks the close button.
 clock = pygame.time.Clock()
-cols = 10
-width = int(size[0]/cols)
-stack = []
+cols = 10 #The number of columns of the maze
+width = int(size[0]/cols) #The width og each box
+stack = [] #The stack of cells used for backtracking
 
-class Point(object):
+class Box(object):
     def __init__(self):
         self.draw  = [True,True,True,True] #TBRL
         self.visited = False
 
-grid = [ [ Point() for x in range(cols) ] for y in range(cols) ] #A grid of points ie rectangular boxes
+grid = [ [ Box() for x in range(cols) ] for y in range(cols) ] #A grid of boxes ie rectangular boxes
 grid[0][0].visited = True
 currentX = 0
 currentY = 0
 
 def removeEdge(currentX,currentY,nextX,nextY):
-    #Remove an edge between current and next point
+    #Remove an edge between current and next box
     xDiff = int( currentX - nextX )
     if xDiff == 1:
         #Remove current's left and next's right
@@ -56,6 +60,7 @@ def removeEdge(currentX,currentY,nextX,nextY):
         grid[currentX][currentY].draw[1] = False
         grid[nextX][nextY].draw[0] = False
 
+#Draw the grid based on which boxes are visited and which edges of each box are to be drawn
 def drawGrid():
     global currentX,currentY
     for x in range(cols):
@@ -76,12 +81,12 @@ def drawGrid():
 
     #Set current box as visited
     grid[currentX][currentY].visited = True
-    #Choose a next neighbour that has not yet been visited and set it as the current point
+    #Choose a next neighbour that has not yet been visited and set it as the current box
     nextX,nextY = selectNeighbour(currentX,currentY)
     if nextX != -1 and len(stack):
         #Push current cell to stack
         stack.append([ currentX,currentY ])
-        #Remove wall between current and next point and update currentX and currentY
+        #Remove wall between current and next box and update currentX and currentY
         removeEdge(currentX,currentY,nextX,nextY)
         currentX = nextX
         currentY = nextY
