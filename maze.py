@@ -38,8 +38,10 @@ def drawGrid():
     global currentX,currentY
     for x in range(cols):
         for y in range(cols):
+            if grid[x][y].visited:
+                pygame.draw.rect(screen, BLUE, [(x)*width, (y)*width, width, width])
             if currentX == x and currentY == y:
-                pygame.draw.rect(screen, GREEN, [(x)*width, (y)*width, (x+1)*width, (y+1)*width])
+                pygame.draw.rect(screen, GREEN, [(x)*width, (y)*width, width, width])
             #TBRL
             if grid[x][y].draw[0]:
                 pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x+1)*width,(y)*width], 5)
@@ -50,13 +52,12 @@ def drawGrid():
             if grid[x][y].draw[3]:
                 pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x)*width,(y+1)*width], 5)
 
-            if grid[x][y].visited:
-                pygame.draw.rect(screen, BLUE, [(x)*width, (y)*width, (x+1)*width, (y+1)*width])
     #Set current box as visited
     grid[currentX][currentY].visited = True
     #Choose a next neighbour that has not yet been visited and set it as the current point
     nextX,nextY = selectNeighbour(currentX,currentY)
     if nextX != -1:
+        print nextX,nextY
         currentX = nextX
         currentY = nextY
 
@@ -85,7 +86,7 @@ def selectNeighbour(x,y):
 while not done:
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
-    clock.tick(2)
+    clock.tick(5)
     #Exit when user clicks close
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
