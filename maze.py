@@ -1,5 +1,6 @@
 '''This program generates a square maze of specified size.
     It uses Recursive Backtracking Method.
+    The algorithm is visualised by highlighting the current box.
 '''
 #Import a library of functions called 'pygame'
 import pygame
@@ -10,17 +11,16 @@ import random
 pygame.init()
 
 #Define the colors we will use in RGB format
-BLACK = (  0,   0,   0)
-WHITE = (255, 255, 255)
-BLUE =  (  0,   0, 255)
-GREEN =  (  0,   255, 0)
+BLACK = (  0,   0,   0) #For edges between boxes
+WHITE = (255, 255, 255) #Default background color
+BLUE =  (  0,   0, 255) #For visited box
+GREEN =  (  0,   255, 0) #For current box
 
 #Set the height and width of the screen
 size = [500, 500]
 screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Maze")
-
 
 done = False #Loop until the user clicks the close button.
 clock = pygame.time.Clock()
@@ -30,7 +30,7 @@ stack = [] #The stack of cells used for backtracking
 
 class Box(object):
     def __init__(self):
-        self.draw  = [True,True,True,True] #TBRL
+        self.draw  = [True,True,True,True] #TBRL i.e. Top,Bottom,Left,Right
         self.visited = False
 
 grid = [ [ Box() for x in range(cols) ] for y in range(cols) ] #A grid of boxes ie rectangular boxes
