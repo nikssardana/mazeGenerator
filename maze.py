@@ -16,33 +16,43 @@ screen = pygame.display.set_mode(size)
 
 pygame.display.set_caption("Maze")
 
-#Loop until the user clicks the close button.
-done = False
+
+done = False #Loop until the user clicks the close button.
 clock = pygame.time.Clock()
 cols = 10
 width = int(size[0]/cols)
+
+class Point(object):
+    def __init__(self):
+        self.draw  = [True,True,True,True] #TBRL
+
+grid = [ [ Point() for x in range(cols) ] for y in range(cols) ] #A grid of points ie rectangular boxes
+
 
 def drawGrid():
     for x in range(cols):
         for y in range(cols):
             #TBRL
-            pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x+1)*width,(y)*width], 5)
-            pygame.draw.line(screen, BLACK, [(x)*width,(y+1)*width], [(x+1)*width,(y+1)*width], 5)
-            pygame.draw.line(screen, BLACK, [(x+1)*width,(y)*width], [(x+1)*width,(y+1)*width], 5)
-            pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x)*width,(y+1)*width], 5)
+            if grid[x][y].draw[0]:
+                pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x+1)*width,(y)*width], 5)
+            if grid[x][y].draw[1]:
+                pygame.draw.line(screen, BLACK, [(x)*width,(y+1)*width], [(x+1)*width,(y+1)*width], 5)
+            if grid[x][y].draw[2]:
+                pygame.draw.line(screen, BLACK, [(x+1)*width,(y)*width], [(x+1)*width,(y+1)*width], 5)
+            if grid[x][y].draw[3]:
+                pygame.draw.line(screen, BLACK, [(x)*width,(y)*width], [(x)*width,(y+1)*width], 5)
 
 while not done:
     # This limits the while loop to a max of 10 times per second.
     # Leave this out and we will use all CPU we can.
     clock.tick(10)
-
-    for event in pygame.event.get(): # User did something
-        if event.type == pygame.QUIT: # If user clicked close
-            done=True # Flag that we are done so we exit this loop
+    #Exit when user clicks close
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            done=True
     # Clear the screen and set the screen background
     screen.fill(WHITE)
-
-    drawGrid()
+    drawGrid() #Draw the grid
     # Go ahead and update the screen with what we've drawn.
     # This MUST happen after all the other drawing commands.
     pygame.display.flip()
