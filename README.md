@@ -6,9 +6,13 @@ Based on recursive backtracking. (https://en.wikipedia.org/wiki/Maze_generation_
 
 # Screenshots:
 
+## 10X10 maze
+
 ![alt tag](https://github.com/nikssardana/mazeGenerator/blob/master/Images/maze1.png)
 
 ![alt tag](https://github.com/nikssardana/mazeGenerator/blob/master/Images/maze3.png)
+
+## 20X20 maze
 
 ![alt tag](https://github.com/nikssardana/mazeGenerator/blob/master/Images/maze2.1.png)
 
